@@ -1,0 +1,61 @@
+{% extends 'price_scrape/basePS.html.twig' %}
+
+{% block title %}Price Scrape Tool{% endblock %}
+
+{% block content %}
+<div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i> Price Scrape</div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+              <tr>
+                <th style="width: 25px;">ID</th>
+                <th>Device</th>
+                <th><img src="img/cw.jpg" height="40"></th>
+                <th><img src="img/magpie.png" height="40"></th>
+                <th><img src="img/mazuma.png" height="40"></th>
+                <th><span style="font-family: 'EE'; font-size: 20px;">RECYCLE.EE</span></th>
+                <th><img src="img/vodafone.png" height="40"></th>
+              </tr>
+              </thead>
+              <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.device }}</td>
+                        {% if item.carphonePrice != null %}
+                            <td>&pound;{{ item.carphonePrice }}</td>
+                        {% else %}
+                            <td bgcolor="#fac0c0">-</td>
+                        {% endif %}
+                        {% if item.magpiePrice != null %}
+                            <td>&pound;{{ item.magpiePrice }}</td>
+                        {% else %}
+                            <td bgcolor="#fac0c0">-</td>
+                        {% endif %}
+                        {% if item.mazumaPrice != null %}
+                            <td>&pound;{{ item.mazumaPrice }}</td>
+                        {% else %}
+                            <td bgcolor="#fac0c0">-</td>
+                        {% endif %}
+                        {% if item.recyclePrice != null %}
+                            <td>&pound;{{ item.recyclePrice }}</td>
+                        {% else %}
+                            <td bgcolor="#fac0c0">-</td>
+                        {% endif %}
+                        {% if item.vodafonePrice != null %}
+                            <td>&pound;{{ item.vodafonePrice }}</td>
+                        {% else %}
+                            <td bgcolor="#fac0c0">-</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+      </div>
+{% endblock %}

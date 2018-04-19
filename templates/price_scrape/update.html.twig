@@ -1,0 +1,45 @@
+{% extends 'price_scrape/basePS.html.twig' %}
+
+{% block title %}Price Scrape Tool{% endblock %}
+
+{% block content %}
+<div class="card mb-3">
+    <div class="card-body" id="main">
+        <p>Are you sure you want to update the prices? This will happen automatically at xx:xx:xx, and doing it now could take several minutes.</p>
+        <div class="alert alert-success text-center" role="alert" style="display: none;" id="response"></div>
+        <button class="btn btn-primary btn-lg btn-block" onClick="update();">UPDATE</button>
+        
+    </div>
+    <div id="loading" style="display: none" class="text-center">
+        <img src="img/load.gif" height="200px"><br>
+        Updating...
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    function update(){
+        var start = new Date();
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+            document.getElementById('main').style.display = 'none';
+            document.getElementById('loading').removeAttribute('style');
+            if(this.readyState == 4 && this.status == 200){
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('main').removeAttribute('style');
+                document.getElementById('response').removeAttribute('style');
+                var time = new Date() - start;
+                document.getElementById('response').innerHTML = this.responseText + ' Time spent: ' + formatDate(time) + ' minutes.';
+            }
+        };
+        xhttp.open("POST", "scan.php", true);
+        xhttp.send();
+    }
+    function formatDate(date){
+        var min = Math.floor(date / 60000);
+        var sec = ((date % 60000) / 1000).toFixed(0);
+        return min + ':' + sec;
+    }
+</script>
+{% endblock %}
