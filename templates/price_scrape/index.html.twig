@@ -59,3 +59,15 @@
         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
       </div>
 {% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function() {
+        var table = $('#dataTable').DataTable( { 
+            "destroy" :true,
+            "paging": false,
+            "lengthChange":false
+        } );
+    } );
+</script>
+{% endblock %}
