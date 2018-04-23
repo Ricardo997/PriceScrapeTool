@@ -1,4 +1,4 @@
 <?php
 require 'scans/webFunctions.php';
-echo addDevice();
+echo addDevice($_POST['deviceName']);
 ?>

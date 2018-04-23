@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Entity\Login;
 use App\Entity\Register;
+use App\Entity\Update;
 
 
 
@@ -77,6 +78,13 @@ class PriceScrapeController extends Controller
         if ($session->get('name') == null){
             return $this->redirect('/login');
         }else{
+            
+            // $form = $this->createFormBuilder($login)
+            // ->setAction('/add-device')
+            // ->setMethod('POST')
+            // ->add('device', TextType::class, array('label' => 'Device'))
+            // ->add('add', SubmitType::class, array('attr' => array('class' => 'btn btn-primary btn-block')))
+            // ->getForm();
             return $this->render('price_scrape/add-device.html.twig', array('name' => $session->get('name')));
         }
     }
