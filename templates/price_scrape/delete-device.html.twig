@@ -1,0 +1,84 @@
+{% extends 'price_scrape/basePS.html.twig' %}
+
+{% block title %}Price Scrape Tool{% endblock %}
+
+{% block content %}
+<div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i> Price Scrape</div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+              <tr>
+                <th style="width: 25px;">Delete</th>
+                <th style="width: 200px;">Device</th>
+                <th><img src="img/cw.jpg" style="width: 200px;"></th>
+                <th><img src="img/magpie.png" style="width: 200px;"></th>
+                <th><img src="img/mazuma.png" style="width: 200px;"></th>
+                <th style="width: 200px;"><span style="font-family: 'EE'; font-size: 40px;">RECYCLE.EE</span></th>
+                <th><img src="img/vodafone.png" style="width: 200px;"></th>
+              </tr>
+              </thead>
+              <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td class="text-center" onclick="del({{ item.id }});" style="cursor: pointer;"><i class="fa fa-fw fa-close"></i></td>
+                        <td>{{ item.device }}</td>
+                        {% if item.carphonePrice != null %}
+                            <td>&pound;{{ item.carphonePrice }}</td>
+                        {% else %}
+                            <td bgcolor="#fac0c0">-</td>
+                        {% endif %}
+                        {% if item.magpiePrice != null %}
+                            <td>&pound;{{ item.magpiePrice }}</td>
+                        {% else %}
+                            <td bgcolor="#fac0c0">-</td>
+                        {% endif %}
+                        {% if item.mazumaPrice != null %}
+                            <td>&pound;{{ item.mazumaPrice }}</td>
+                        {% else %}
+                            <td bgcolor="#fac0c0">-</td>
+                        {% endif %}
+                        {% if item.recyclePrice != null %}
+                            <td>&pound;{{ item.recyclePrice }}</td>
+                        {% else %}
+                            <td bgcolor="#fac0c0">-</td>
+                        {% endif %}
+                        {% if item.vodafonePrice != null %}
+                            <td>&pound;{{ item.vodafonePrice }}</td>
+                        {% else %}
+                            <td bgcolor="#fac0c0">-</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+      </div>
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function() {
+        var table = $('#dataTable').DataTable( { 
+            "destroy" :true,
+            "paging": false,
+            "lengthChange":false
+        } );
+    } );
+    function del($id) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+            if(this.readyState == 4 && this.status == 200){
+                location.reload();
+            }
+        };
+        xhttp.open("POST", "delete.php", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("idDevice=" + $id);
+    };
+</script>
+{% endblock %}
