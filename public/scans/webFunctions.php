@@ -288,32 +288,41 @@ function recycleScan($search, $id)
     $con = new mysqli($server, $user, $pass, $db);
     $xml = new SimpleXMLElement($response);
     $index = 0;
+
+    $perc = 0;
+    $correctName = '';
+    $correctPrice = 0;
     foreach ($xml as $name => $arr) {
         $name = getRecycleName($arr[$index]);
-        $price = getRecyclePrice($name);
-        $correct = true;
-        for ($f = 0; $f < count($filters); $f++) {
-            if ((strpos($name, $filters[$f])) !== false) {
-                $correct = false;
-                break;
-            }
+        similar_text($search, $name, $percentage);
+        if ($percentage > $perc) {
+            $perc = $percentage;
+
+            $correctName = $name;
+            $correctPrice = getRecyclePrice($name);
         }
-        if ($correct) {
-            if ($price !== 'noPrice') {
-                $query = "SELECT COUNT(*) AS matches FROM `recyclee` WHERE `recycleName` = '" . $name . "'";
-                $result = $con->query($query);
-                $row = $result->fetch_assoc();
-                if ($row['matches'] == 0) {
-                    $insrt = "INSERT INTO `recyclee`(`idRecycle`, `recycleName`, `recyclePrice`) VALUES (" . $id . ", '" . $name . "', " . $price . ")";
-                    $con->query($insrt);
-                    $inserted++;
-                    break;
-                } else {
-                    $updt = "UPDATE `recyclee` SET `recyclePrice`= '" . $price . "' WHERE `recycleName`= '" . $name . "'";
-                    $con->query($updt);
-                    $updated++;
-                    break;
-                }
+    }
+
+    $correct = true;
+    for ($f = 0; $f < count($filters); $f++) {
+        if ((strpos($name, $filters[$f])) !== false) {
+            $correct = false;
+            break;
+        }
+    }
+    if ($correct) {
+        if ($correctPrice !== 'noPrice') {
+            $query = "SELECT COUNT(*) AS matches FROM `recyclee` WHERE `recycleName` = '" . $correctName . "'";
+            $result = $con->query($query);
+            $row = $result->fetch_assoc();
+            if ($row['matches'] == 0) {
+                $insrt = "INSERT INTO `recyclee`(`idRecycle`, `recycleName`, `recyclePrice`) VALUES (" . $id . ", '" . $correctName . "', " . $correctPrice . ")";
+                $con->query($insrt);
+                $inserted++;
+            } else {
+                $updt = "UPDATE `recyclee` SET `recyclePrice`= '" . $correctPrice . "' WHERE `recycleName`= '" . $correctName . "'";
+                $con->query($updt);
+                $updated++;
             }
         }
     }
@@ -455,37 +464,43 @@ function vodafoneScan($search, $id)
     }
     $data = json_decode($response);
     $con = new mysqli($server, $user, $pass, $db);
-
     $devices = $data->Data;
+    $perc = 0;
+    $correctName = '';
+    $correctPrice = 0;
     for ($i = 0; $i < count($devices); $i++) {
         $make = $devices[$i]->Manufacturer;
         $model = $devices[$i]->Model;
         $name = str_replace('(', '', str_replace(')', '', ($make . ' ' . $model)));
-        $price = floatval($devices[$i]->UptoCashPrice);
-        $correct = true;
-        for ($f = 0; $f < count($filters); $f++) {
-            if ((strpos($name, $filters[$f])) !== false) {
-                $correct = false;
-                break;
-            }
-        }
-        if ($correct) {
-            $query = "SELECT COUNT(*) AS matches FROM `vodafone` WHERE `vodafoneName` = '" . $name . "'";
-            $result = $con->query($query);
-            $row = $result->fetch_assoc();
-            if ($row['matches'] === '0') {
-                $insrt = "INSERT INTO `vodafone`(`idVodafone`, `vodafoneName`, `vodafonePrice`) VALUES (" . $id . ", '" . $name . "', " . $price . ")";
-                $con->query($insrt);
-                $inserted++;
-                break;
-            } else {
-                $updt = "UPDATE `vodafone` SET `vodafonePrice`= '" . $price . "' WHERE `vodafoneName`= '" . $name . "'";
-                $con->query($updt);
-                $updated++;
-                break;
-            }
+        similar_text($search, $name, $percentage);
+        if ($percentage > $perc) {
+            $perc = $percentage;
+            $correctName = $name;
+            $correctPrice = floatval($devices[$i]->UptoCashPrice);
         }
     }
+    $correct = true;
+    for ($f = 0; $f < count($filters); $f++) {
+        if ((strpos($name, $filters[$f])) !== false) {
+            $correct = false;
+            break;
+        }
+    }
+    if ($correct) {
+        $query = "SELECT COUNT(*) AS matches FROM `vodafone` WHERE `vodafoneName` = '" . $correctName . "'";
+        $result = $con->query($query);
+        $row = $result->fetch_assoc();
+        if ($row['matches'] === '0') {
+            $insrt = "INSERT INTO `vodafone`(`idVodafone`, `vodafoneName`, `vodafonePrice`) VALUES (" . $id . ", '" . $correctName . "', " . $correctPrice . ")";
+            $con->query($insrt);
+            $inserted++;
+        } else {
+            $updt = "UPDATE `vodafone` SET `vodafonePrice`= '" . $correctPrice . "' WHERE `vodafoneName`= '" . $correctName . "'";
+            $con->query($updt);
+            $updated++;
+        }
+    }
+
 }
 
 //End vodafone

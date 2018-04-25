@@ -12,12 +12,12 @@
               <thead>
               <tr>
                 <th style="width: 25px;">Delete</th>
-                <th style="width: 200px;">Device</th>
-                <th><img src="img/cw.jpg" style="width: 200px;"></th>
-                <th><img src="img/magpie.png" style="width: 200px;"></th>
-                <th><img src="img/mazuma.png" style="width: 200px;"></th>
-                <th style="width: 200px;"><span style="font-family: 'EE'; font-size: 40px;">RECYCLE.EE</span></th>
-                <th><img src="img/vodafone.png" style="width: 200px;"></th>
+                <th style="width: 250px;">Device</th>
+                <th class="align-middle"><img src="img/cw.jpg" style="width: 200px;"></th>
+                <th class="align-middle"><img src="img/magpie.png" style="width: 200px;"></th>
+                <th class="align-middle"><img src="img/mazuma.png" style="width: 200px;"></th>
+                <th class="align-middle" style="width: 200px;"><span style="font-family: 'EE'; font-size: 40px;">RECYCLE.EE</span></th>
+                <th class="align-middle"><img src="img/vodafone.png" style="width: 200px;"></th>
               </tr>
               </thead>
               <tbody>
@@ -25,27 +25,27 @@
                     <tr>
                         <td class="text-center" onclick="del({{ item.id }});" style="cursor: pointer;"><i class="fa fa-fw fa-close"></i></td>
                         <td>{{ item.device }}</td>
-                        {% if item.carphonePrice != null %}
+                        {% if item.carphonePrice != null and item.carphonePrice != 0.00 %}
                             <td>&pound;{{ item.carphonePrice }}</td>
                         {% else %}
                             <td bgcolor="#fac0c0">-</td>
                         {% endif %}
-                        {% if item.magpiePrice != null %}
+                        {% if item.magpiePrice != null and item.magpiePrice != 0.00 %}
                             <td>&pound;{{ item.magpiePrice }}</td>
                         {% else %}
                             <td bgcolor="#fac0c0">-</td>
                         {% endif %}
-                        {% if item.mazumaPrice != null %}
+                        {% if item.mazumaPrice != null and item.mazumaPrice != 0.00 %}
                             <td>&pound;{{ item.mazumaPrice }}</td>
                         {% else %}
                             <td bgcolor="#fac0c0">-</td>
                         {% endif %}
-                        {% if item.recyclePrice != null %}
+                        {% if item.recyclePrice != null and item.recyclePrice != 0.00 %}
                             <td>&pound;{{ item.recyclePrice }}</td>
                         {% else %}
                             <td bgcolor="#fac0c0">-</td>
                         {% endif %}
-                        {% if item.vodafonePrice != null %}
+                        {% if item.vodafonePrice != null and item.vodafonePrice != 0.00 %}
                             <td>&pound;{{ item.vodafonePrice }}</td>
                         {% else %}
                             <td bgcolor="#fac0c0">-</td>
@@ -56,7 +56,6 @@
             </table>
           </div>
         </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
       </div>
 {% endblock %}
 

@@ -19,5 +19,6 @@
         }
         vodafoneScan($model, $id);
     }
+    $_SESSION['last_updt'] = time();
     echo 'Database updated.';
 ?>
