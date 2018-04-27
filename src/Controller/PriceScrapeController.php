@@ -69,7 +69,7 @@ class PriceScrapeController extends Controller
         }
     }
     /**
-     * @Route("/add-device", name="addDevice");
+     * @Route("/add", name="addDevice");
      */
     public function addDevice(Request $request)
     {
@@ -77,13 +77,6 @@ class PriceScrapeController extends Controller
         if ($session->get('name') == null) {
             return $this->redirect('/login');
         } else {
-
-            // $form = $this->createFormBuilder($login)
-            // ->setAction('/add-device')
-            // ->setMethod('POST')
-            // ->add('device', TextType::class, array('label' => 'Device'))
-            // ->add('add', SubmitType::class, array('attr' => array('class' => 'btn btn-primary btn-block')))
-            // ->getForm();
             return $this->render('price_scrape/add-device.html.twig', array('name' => $session->get('name')));
         }
     }
@@ -145,7 +138,7 @@ class PriceScrapeController extends Controller
     }
 
     /**
-     * @Route("/delete-device", name="delete");
+     * @Route("/delete", name="delete");
      */
     public function deleteDevice(Request $request){
         require 'functions.php';

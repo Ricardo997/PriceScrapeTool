@@ -5,18 +5,40 @@
 {% block content %}
 <div class="card mb-3">
     <div class="card-body">
-    <form method="POST" action="">
-        <div class="form-group">
-            <div class="form-row">
-                <div class="col-md-12">
-                    <label for="deviceName">Device</label>
-                    <input class="form-control" id="deviceName" type="text" placeholder="Enter complete device name">
-                    <div id="response"></div>
+        <div class="row">
+            <div class="col-md-8">
+                <form method="POST" action="">
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="deviceName">Device</label>
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-fw fa-search"></i></div>
+                                    
+                                    <input class="form-control" id="deviceName" type="text" placeholder="Enter complete device name" required>
+                                    </div>
+                                    <div id="response"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-redeem btn-lg btn-block" onClick="addDevice()">Add</button>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <p class="h2">Info</p>
+                <p>The webs that will be scanned looking for that device are:</p>
+                <div class="list-group">
+                    <a href="https://www.carphonewarehouse.com" target="_blank" class="list-group-item list-group-item-action">Carphone Warehouse</a>
+                    <a href="https://www.musicmagpie.co.uk" target="_blank" class="list-group-item list-group-item-action">MusicMagpie</a>
+                    <a href="https://www.mazumamobile.com" target="_blank" class="list-group-item list-group-item-action">Mazuma Mobile</a>
+                    <a href="https://ee.co.uk" target="_blank" class="list-group-item list-group-item-action">EE</a>
+                    <a href="https://www.vodafone.co.uk" target="_blank" class="list-group-item list-group-item-action">Vodafone</a>
+                    <a href="https://www.mobilephonexchange.co.uk" target="_blank" class="list-group-item list-group-item-action">Movile Phone Xchange</a>
                 </div>
             </div>
         </div>
-        <button class="btn btn-primary btn-lg btn-block" onClick="addDevice()">Add</button>
-    </form>
     </div>
 </div>
 {% endblock %}

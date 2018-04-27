@@ -18,6 +18,7 @@
                 <th class="align-middle"><img src="img/mazuma.png" style="width: 200px;"></th>
                 <th class="align-middle" style="width: 200px;"><span style="font-family: 'EE'; font-size: 40px;">RECYCLE.EE</span></th>
                 <th class="align-middle"><img src="img/vodafone.png" style="width: 200px;"></th>
+                <th class="align-middle"><img src="img/mpx.png" style="width: 200px;"></th>
               </tr>
               </thead>
               <tbody>
@@ -47,6 +48,11 @@
                         {% endif %}
                         {% if item.vodafonePrice != null and item.vodafonePrice != 0.00 %}
                             <td>&pound;{{ item.vodafonePrice }}</td>
+                        {% else %}
+                            <td bgcolor="#fac0c0">-</td>
+                        {% endif %}
+                        {% if item.mpxPrice != null and item.mpxPrice != 0.00 %}
+                            <td>&pound;{{ item.mpxPrice }}</td>
                         {% else %}
                             <td bgcolor="#fac0c0">-</td>
                         {% endif %}

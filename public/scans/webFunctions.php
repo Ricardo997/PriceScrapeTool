@@ -172,19 +172,6 @@ function mazumaScan($search, $id)
     $DOM->loadHTML($response);
     $con = new mysqli($server, $user, $pass, $db);
     $items = $DOM->getElementsByTagName('a');
-    // foreach ($data as $d => $arr) {
-    //     for ($i = 0; $i < count($arr); $i++) {
-    //         for ($i = 0; $i < count($arr); $i++) {
-    //             $name = getMagpieName($arr[$i]);
-    //             similar_text($search, $name, $percentage);
-    //             if ($percentage > $perc) {
-    //                 $perc = $percentage;
-    //                 $correctName = $name;
-    //                 $correctUrl =  rtrim(substr($arr[$i], 37, 56), '\u\u00 ');
-    //             }
-    //         }
-    //     }
-    // }
     $perc = 0;
     $correctName = '';
     $correctPrice = 0;
@@ -257,7 +244,21 @@ function recycleScan($search, $id)
     $inserted = 0;
     $updated = 0;
     $filters = ['Tab ', 'Gear', 'iPad', 'iPod', 'AMD', 'Watch', 'iMac'];
-
+    if(strpos($search, 'Galaxy')){
+        if (strpos($search, '16GB')){
+            $newSearch = str_replace('16GB', '', $search);
+        } elseif (strpos($search, '32GB')){
+            $newSearch = str_replace('32GB', '', $search);
+        } elseif (strpos($search, '64GB')){
+            $newSearch = str_replace('64GB', '', $search);
+        } elseif (strpos($search, '128GB')){
+            $newSearch = str_replace('128GB', '', $search);
+        } else {
+            $newSearch = $search;
+        }
+    } else {
+        $newSearch = $search;
+    }
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
@@ -268,7 +269,7 @@ function recycleScan($search, $id)
         CURLOPT_TIMEOUT => 30000,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS => "prefixText=" . $search . "&count=500",
+        CURLOPT_POSTFIELDS => "prefixText=" . $newSearch . "&count=500",
         CURLOPT_HTTPHEADER => array(
             "Cache-Control: no-cache",
             "Content-Type: application/x-www-form-urlencoded",
@@ -297,7 +298,6 @@ function recycleScan($search, $id)
         similar_text($search, $name, $percentage);
         if ($percentage > $perc) {
             $perc = $percentage;
-
             $correctName = $name;
             $correctPrice = getRecyclePrice($name);
         }
@@ -436,7 +436,22 @@ function vodafoneScan($search, $id)
     $inserted = 0;
     $updated = 0;
     $filters = ['Tab ', 'Gear', 'iPad', 'iPod', 'AMD', 'Watch', 'iMac'];
-    $brandSearch = str_replace(' ', '%20', $search);
+    if(strpos($search, 'Galaxy')){
+        if (strpos($search, '16GB')){
+            $newSearch = str_replace('16GB', '', $search);
+        } elseif (strpos($search, '32GB')){
+            $newSearch = str_replace('32GB', '', $search);
+        } elseif (strpos($search, '64GB')){
+            $newSearch = str_replace('64GB', '', $search);
+        } elseif (strpos($search, '128GB')){
+            $newSearch = str_replace('128GB', '', $search);
+        } else {
+            $newSearch = $search;
+        }
+    } else {
+        $newSearch = $search;
+    }
+    $brandSearch = str_replace(' ', '%20', $newSearch);
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
@@ -472,6 +487,7 @@ function vodafoneScan($search, $id)
         $make = $devices[$i]->Manufacturer;
         $model = $devices[$i]->Model;
         $name = str_replace('(', '', str_replace(')', '', ($make . ' ' . $model)));
+        //echo $newSearch . ' ?? ' . $name . '<br>';
         similar_text($search, $name, $percentage);
         if ($percentage > $perc) {
             $perc = $percentage;
@@ -479,6 +495,7 @@ function vodafoneScan($search, $id)
             $correctPrice = floatval($devices[$i]->UptoCashPrice);
         }
     }
+    //echo $newSearch . ' <==> ' . $correctName . '<br>';
     $correct = true;
     for ($f = 0; $f < count($filters); $f++) {
         if ((strpos($name, $filters[$f])) !== false) {
@@ -504,6 +521,129 @@ function vodafoneScan($search, $id)
 }
 
 //End vodafone
+//Start mpx
+
+function mpxScan($search, $id)
+{
+    //error_reporting(0);
+    require 'connection.php';
+
+    $inserted = 0;
+    $updated = 0;
+    $filters = ['Tab ', 'Gear', 'iPad', 'iPod', 'AMD', 'Watch', 'iMac'];
+    if(strpos($search, 'Galaxy')){
+        if (strpos($search, '16GB')){
+            $newSearch = str_replace('16GB', '', $search);
+        } elseif (strpos($search, '32GB')){
+            $newSearch = str_replace('32GB', '', $search);
+        } elseif (strpos($search, '64GB')){
+            $newSearch = str_replace('64GB', '', $search);
+        } elseif (strpos($search, '128GB')){
+            $newSearch = str_replace('128GB', '', $search);
+        } else {
+            $newSearch = $search;
+        }
+    } else {
+        $newSearch = $search;
+    }
+    if (strpos($newSearch,'Edge')){
+        $newSearch = str_replace(' Edge', '', $newSearch);
+    }
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://www.mobilephonexchange.co.uk/AutoComplete.asmx/GetCompletionList",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30000,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => "prefixText=" . $newSearch . "&count=500",
+        CURLOPT_HTTPHEADER => array(
+            "Cache-Control: no-cache",
+            "Content-Type: application/x-www-form-urlencoded",
+            "Postman-Token: 83999cf2-69d3-42c5-bd11-c26ef17a1a8c",
+        ),
+    ));
+
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
+
+    curl_close($curl);
+
+    if ($err) {
+        echo "cURL Error #:" . $err;
+    }
+
+    $con = new mysqli($server, $user, $pass, $db);
+    $xml = new SimpleXMLElement($response);
+    $perc = 0;
+    $correctName = '';
+    $correctPrice = 0;
+    foreach ($xml as $data => $device) {
+        $name = getMpxName($device);
+        similar_text($search, $name, $percentage);
+        if ($percentage > $perc) {
+            $perc = $percentage;
+            $correctName = $name;
+            $correctPrice = getMpxPrice($correctName);
+        }
+    }
+    $correct = true;
+    for ($f = 0; $f < count($filters); $f++) {
+        if ((strpos($correctName, $filters[$f])) !== false) {
+            $correct = false;
+            break;
+        }
+    }
+    if ($correct) {
+        if ($correctPrice !== 'noPrice') {
+            $query = "SELECT COUNT(*) AS matches FROM `mpx` WHERE `mpxName` = '" . $correctName . "'";
+            $result = $con->query($query);
+            $row = $result->fetch_assoc();
+            if ($row['matches'] == 0) {
+                $insrt = "INSERT INTO `mpx`(`idMpx`, `mpxName`, `mpxPrice`) VALUES (" . $id . ", '" . $correctName . "', " . $correctPrice . ")";
+                $con->query($insrt);
+                $inserted++;
+            } else {
+                $updt = "UPDATE `mpx` SET `mpxPrice`= '" . $correctPrice . "' WHERE `mpxName`= '" . $correctName . "'";
+                $con->query($updt);
+                $updated++;
+            }
+        }
+    }
+}
+function getMpxName($str)
+{
+    $startPos = strpos($str, 'First":"') + 8;
+    $endPos = strpos($str, '","Second');
+    $length = ($endPos - $startPos);
+    $nameAux = substr($str, $startPos, $length);
+    $name = str_replace('(', '', (str_replace(')', '', $nameAux)));
+    return $name;
+}
+
+function getMpxPrice($name)
+{
+    $brand = substr($name, 0, (strpos($name, ' ')));
+    $model = str_replace(' ', '_', str_replace($brand . ' ', '', $name));
+    $url = 'https://www.mobilephonexchange.co.uk/sell-mobile-phone/Phones/' . $brand . '/' . $model;
+    $web = file_get_contents($url);
+    if ($web !== false) {
+        $startPos = (strpos($web, '<div id="handset-valuation-amount">')) + 111;
+        $endPos = (strpos($web, '</h3>', $startPos));
+        $length = ($endPos - $startPos);
+        $priceAux1 = substr($web, $startPos, $length);
+        $priceAux2 = str_replace('£ ', '', $priceAux1);
+        $price = floatval($priceAux2);
+        return $price;
+    } else {
+        return 'noPrice';
+    }
+}
+
+//End mpx
 
 function addDevice($deviceName)
 {

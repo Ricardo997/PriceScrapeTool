@@ -1,11 +1,11 @@
 <?php
 function checkSession(Session $session)
 {
-	if($session->get('userID') == null){
-		return false;
-	}else{
-		return true;
-	}
+    if ($session->get('userID') == null) {
+        return false;
+    } else {
+        return true;
+    }
 }
 function getItems()
 {
@@ -16,6 +16,7 @@ function getItems()
                         `carphone`.`carphonePrice`,
                         `magpie`.`magpiePrice`,
                         `mazuma`.`mazumaPrice`,
+                        `mpx`.`mpxPrice`,
                         `recyclee`.`recyclePrice`,
                         `vodafone`.`vodafonePrice`
                 FROM `redeem`
@@ -25,6 +26,8 @@ function getItems()
                             ON `magpie`.`idMagpie` = `redeem`.`id`
                     LEFT JOIN `mazuma`
                             ON `mazuma`.`idMazuma` = `redeem`.`id`
+                    LEFT JOIN `mpx`
+                            ON `mpx`.`idMpx` = `redeem`.`id`
                     LEFT JOIN `recyclee`
                             ON `recyclee`.`idRecycle` = `redeem`.`id`
                     LEFT JOIN `vodafone`
@@ -37,7 +40,8 @@ function getItems()
     return $items;
 }
 
-function getUsers(){
+function getUsers()
+{
     $con = new PDO("mysql:host=localhost;dbname=scrapeprices", 'Ricardo', 'admin');
     $users = array();
     $query = 'SELECT * FROM `users`';
@@ -48,4 +52,3 @@ function getUsers(){
     $con = null;
     return $users;
 }
-?>

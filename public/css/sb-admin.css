@@ -476,3 +476,48 @@ footer.sticky-footer {
     width: calc(100% - 55px);
   }
 }
+.btn-redeem { 
+  color: #ffffff; 
+  background-color: #F2882C; 
+  border-color: #FFFFFF; 
+} 
+ 
+.btn-redeem:hover, 
+.btn-redeem:focus, 
+.btn-redeem:active, 
+.btn-redeem.active, 
+.open .dropdown-toggle.btn-redeem { 
+  color: #ffffff; 
+  background-color: #DE7F2C; 
+  border-color: #FFFFFF; 
+} 
+ 
+.btn-redeem:active, 
+.btn-redeem.active, 
+.open .dropdown-toggle.btn-redeem { 
+  background-image: none; 
+} 
+ 
+.btn-redeem.disabled, 
+.btn-redeem[disabled], 
+fieldset[disabled] .btn-redeem, 
+.btn-redeem.disabled:hover, 
+.btn-redeem[disabled]:hover, 
+fieldset[disabled] .btn-redeem:hover, 
+.btn-redeem.disabled:focus, 
+.btn-redeem[disabled]:focus, 
+fieldset[disabled] .btn-redeem:focus, 
+.btn-redeem.disabled:active, 
+.btn-redeem[disabled]:active, 
+fieldset[disabled] .btn-redeem:active, 
+.btn-redeem.disabled.active, 
+.btn-redeem[disabled].active, 
+fieldset[disabled] .btn-redeem.active { 
+  background-color: #F2882C; 
+  border-color: #FFFFFF; 
+} 
+ 
+.btn-redeem .badge { 
+  color: #F2882C; 
+  background-color: #ffffff; 
+}

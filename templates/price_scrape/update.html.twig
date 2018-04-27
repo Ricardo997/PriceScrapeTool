@@ -5,9 +5,9 @@
 {% block content %}
 <div class="card mb-3">
     <div class="card-body" id="main">
-        <p>Are you sure you want to update the prices? This will happen automatically at xx:xx:xx, and doing it now could take several minutes.</p>
+        <p>Are you sure you want to update the prices? This will happen automatically at 02:00 AM, and this process could take several minutes.</p>
         <div class="alert alert-success text-center" role="alert" style="display: none;" id="response"></div>
-        <button class="btn btn-primary btn-lg btn-block" onClick="update();">UPDATE</button>
+        <button class="btn btn-redeem btn-lg btn-block" onClick="update();">UPDATE</button>
         
     </div>
     <div id="loading" style="display: none" class="text-center">
@@ -39,6 +39,9 @@
     function formatDate(date){
         var min = Math.floor(date / 60000);
         var sec = ((date % 60000) / 1000).toFixed(0);
+        if (sec < 10){
+            sec = '0' + sec;
+        }
         return min + ':' + sec;
     }
 </script>

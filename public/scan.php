@@ -18,7 +18,7 @@
             carphoneScan($model, $id);
         }
         vodafoneScan($model, $id);
+        mpxScan($model, $id);
     }
-    $_SESSION['last_updt'] = time();
     echo 'Database updated.';
 ?>
