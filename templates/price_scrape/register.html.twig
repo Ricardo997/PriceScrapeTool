@@ -1,50 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <title>Register an account</title>
-  <link rel="shortcut icon" type="image/png" href="img/PS.png"/>
-  <!-- Bootstrap core CSS-->
-  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Custom fonts for this template-->
-  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <!-- Custom styles for this template-->
-  <link href="css/sb-admin.css" rel="stylesheet">
-</head>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Register an account</title>
+    <link rel="shortcut icon" type="image/png" href="img/PS.png"/>
+    <!-- Bootstrap core CSS-->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin.css" rel="stylesheet">
+  </head>
 
-<body class="bg-dark">
-  <div class="container">
-    <div class="text-center">
-    <br>
-    <img src="img/logo.png" height="150px">
-  </div>
-    <div class="card card-register mx-auto mt-5">
-      <div class="card-header">Register an Account</div>
-      <div class="card-body">
-        {% form_theme form 'bootstrap_4_layout.html.twig' %}
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        {{ form_end(form) }}
-        {% if error != null %}
-            <div class="alert alert-danger">
-                User already exists!
-            </div>
-        {% endif %}
-        <div class="text-center">
-          <a class="d-block small mt-3 text-dark" href="/login">Login Page</a>
+  <body class="bg-dark">
+    <div class="container">
+      <div class="text-center">
+      <br>
+      <img src="img/logo.png" height="150px">
+    </div>
+      <div class="card card-register mx-auto mt-5">
+        <div class="card-header">Register an Account</div>
+        <div class="card-body">
+          {% form_theme form 'bootstrap_4_layout.html.twig' %}
+          {{ form_start(form) }}
+          {{ form_widget(form) }}
+          {{ form_end(form) }}
+          {% if error != null %}
+              <div class="alert alert-danger">
+                  User already exists!
+              </div>
+          {% endif %}
+          <div class="text-center">
+            <a class="d-block small mt-3 text-dark" href="/login">Login Page</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <script src="jquery/jquery.min.js"></script>
-  <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-  <!-- Core plugin JavaScript-->
-  <script src="jquery-easing/jquery.easing.min.js"></script>
-</body>
-
+    <script src="jquery/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="jquery-easing/jquery.easing.min.js"></script>
+  </body>
 </html>
