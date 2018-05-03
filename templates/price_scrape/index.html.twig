@@ -3,6 +3,7 @@
 {% block title %}Price Scrape Tool{% endblock %}
 
 {% block content %}
+<div class="container-fluid">
 <div class="card mb-3">
         <div class="card-header">
           <i class="fa fa-table"></i> Price Scrape</div>
@@ -13,12 +14,12 @@
               <tr>
                 {# <th style="width: 25px;">ID</th> #}
                 <th style="width: 200px;">Device</th>
-                <th class="align-middle"><img src="img/cw.jpg" style="width: 200px;"></th>
-                <th class="align-middle"><img src="img/magpie.png" style="width: 200px;"></th>
-                <th class="align-middle"><img src="img/mazuma.png" style="width: 200px;"></th>
-                <th class="align-middle" style="width: 200px;"><span style="font-family: 'EE'; font-size: 40px;">RECYCLE.EE</span></th>
-                <th class="align-middle"><img src="img/vodafone.png" style="width: 200px;"></th>
-                <th class="align-middle"><img src="img/mpx.png" style="width: 200px;"></th>
+                <th class="align-middle" data-toggle="tooltip" data-placement="top" title="Carphone Warehouse"><img src="img/cw.jpg" style="width: 200px;"></th>
+                <th class="align-middle" data-toggle="tooltip" data-placement="top" title="MusicMagpie"><img src="img/magpie.png" style="width: 200px;"></th>
+                <th class="align-middle" data-toggle="tooltip" data-placement="top" title="Mazuma Mobile"><img src="img/mazuma.png" style="width: 200px;"></th>
+                <th class="align-middle text-center" data-toggle="tooltip" data-placement="top" title="EE" style="width: 200px;"><img src="img/ee.png" style="height: 60px;"></th>
+                <th class="align-middle" data-toggle="tooltip" data-placement="top" title="Vodafone"><img src="img/vodafone.png" style="width: 200px;"></th>
+                <th class="align-middle" data-toggle="tooltip" data-placement="top" title="Mobile Phone Xchange"><img src="img/mpx.png" style="width: 200px;"></th>
               </tr>
               </thead>
               <tbody>
@@ -62,6 +63,7 @@
             </table>
           </div>
         </div>
+      </div>
       </div>
 {% endblock %}
 

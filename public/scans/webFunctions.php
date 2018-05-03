@@ -18,7 +18,7 @@ function magpieScan($search, $id)
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 3000,
+        CURLOPT_TIMEOUT => 50000,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
         CURLOPT_POSTFIELDS => "{prefixText: \"" . $search . "\", count: 20}",
@@ -34,12 +34,6 @@ function magpieScan($search, $id)
 
     curl_close($curl);
 
-    if ($err) {
-        echo "cURL Error #:" . $err;
-    }
-    if ($err) {
-        echo "cURL Error #:" . $err;
-    }
     $data = json_decode($response);
     $con = new mysqli($server, $user, $pass, $db);
 
@@ -151,7 +145,7 @@ function mazumaScan($search, $id)
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 50,
-        CURLOPT_TIMEOUT => 5000,
+        CURLOPT_TIMEOUT => 50000,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
         CURLOPT_HTTPHEADER => array(
@@ -165,9 +159,6 @@ function mazumaScan($search, $id)
 
     curl_close($curl);
 
-    if ($err) {
-        echo "cURL Error #:" . $err;
-    }
     $DOM = new DOMDocument;
     $DOM->loadHTML($response);
     $con = new mysqli($server, $user, $pass, $db);
@@ -266,7 +257,7 @@ function recycleScan($search, $id)
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 30000,
+        CURLOPT_TIMEOUT => 50000,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
         CURLOPT_POSTFIELDS => "prefixText=" . $newSearch . "&count=500",
@@ -281,10 +272,6 @@ function recycleScan($search, $id)
     $err = curl_error($curl);
 
     curl_close($curl);
-
-    if ($err) {
-        echo "cURL Error #:" . $err;
-    }
 
     $con = new mysqli($server, $user, $pass, $db);
     $xml = new SimpleXMLElement($response);
@@ -342,7 +329,6 @@ function getRecyclePrice($name)
 {
     $brand = substr($name, 0, (strpos($name, ' ')));
     $model = str_replace(' ', '_', str_replace($brand . ' ', '', $name));
-    //$url = 'http://localhost/Recycle.ee/recycle.ee.co.uk/sell-mobile-phone/Phones/' . $brand . '/' . $model . '.html';
     $url = 'https://recycle.ee.co.uk/sell-mobile-phone/Phones/' . $brand . '/' . $model . '.html';
     $web = file_get_contents($url);
     if ($web !== false) {
@@ -373,7 +359,7 @@ function carphoneScan($search, $id)
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 3000,
+        CURLOPT_TIMEOUT => 50000,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
         CURLOPT_POSTFIELDS => "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"data\"\r\n\r\n" . $search . "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--",
@@ -389,10 +375,6 @@ function carphoneScan($search, $id)
     $err = curl_error($curl);
 
     curl_close($curl);
-
-    if ($err) {
-        echo "cURL Error #:" . $err;
-    }
 
     $data = json_decode($response);
     $con = new mysqli($server, $user, $pass, $db);
@@ -459,7 +441,7 @@ function vodafoneScan($search, $id)
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 3000,
+        CURLOPT_TIMEOUT => 50000,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "GET",
         CURLOPT_HTTPHEADER => array(
@@ -474,9 +456,6 @@ function vodafoneScan($search, $id)
 
     curl_close($curl);
 
-    if ($err) {
-        echo "cURL Error #:" . $err;
-    }
     $data = json_decode($response);
     $con = new mysqli($server, $user, $pass, $db);
     $devices = $data->Data;
@@ -525,7 +504,7 @@ function vodafoneScan($search, $id)
 
 function mpxScan($search, $id)
 {
-    //error_reporting(0);
+    error_reporting(0);
     require 'connection.php';
 
     $inserted = 0;
@@ -556,7 +535,7 @@ function mpxScan($search, $id)
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 30000,
+        CURLOPT_TIMEOUT => 50000,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
         CURLOPT_POSTFIELDS => "prefixText=" . $newSearch . "&count=500",
@@ -571,10 +550,6 @@ function mpxScan($search, $id)
     $err = curl_error($curl);
 
     curl_close($curl);
-
-    if ($err) {
-        echo "cURL Error #:" . $err;
-    }
 
     $con = new mysqli($server, $user, $pass, $db);
     $xml = new SimpleXMLElement($response);
