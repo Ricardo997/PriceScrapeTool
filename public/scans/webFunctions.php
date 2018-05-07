@@ -657,4 +657,6 @@ function addDevice($deviceName)
         return 'The device is already registered';
     }
 }
+
+
 ?>

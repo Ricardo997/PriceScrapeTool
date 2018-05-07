@@ -150,5 +150,19 @@ class PriceScrapeController extends Controller
             return $this->render('price_scrape/delete-device.html.twig', array('name' => $session->get('name'), 'items' => $items));
         }
     }
+
+    /** 
+     * @Route("/history", name="history");
+     */
+    public function history(Request $request){
+        require 'functions.php';
+        $session = $request->getSession();
+        if ($session->get('name') == null) {
+            return $this->redirect('/login');
+        } else {
+            $items = getItems();
+            return $this->render('price_scrape/history.html.twig', array('name' => $session->get('name'), 'items' => $items));
+        }
+    }
 }
 ?>

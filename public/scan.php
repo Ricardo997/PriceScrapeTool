@@ -1,6 +1,8 @@
 <?php
     require 'connection.php';
     require 'scans/webFunctions.php';
+    require 'functions.php';
+    createLog();
     $con = new mysqli($server, $user, $pass, $db);
     $query = 'SELECT * FROM `redeem`';
     $result = $con->query($query);
