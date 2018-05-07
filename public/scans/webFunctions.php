@@ -419,14 +419,14 @@ function vodafoneScan($search, $id)
     $updated = 0;
     $filters = ['Tab ', 'Gear', 'iPad', 'iPod', 'AMD', 'Watch', 'iMac'];
     if(strpos($search, 'Galaxy')){
-        if (strpos($search, '16GB')){
-            $newSearch = str_replace('16GB', '', $search);
-        } elseif (strpos($search, '32GB')){
-            $newSearch = str_replace('32GB', '', $search);
-        } elseif (strpos($search, '64GB')){
-            $newSearch = str_replace('64GB', '', $search);
-        } elseif (strpos($search, '128GB')){
-            $newSearch = str_replace('128GB', '', $search);
+        if (strpos($search, ' 16GB')){
+            $newSearch = str_replace(' 16GB', '', $search);
+        } elseif (strpos($search, ' 32GB')){
+            $newSearch = str_replace(' 32GB', '', $search);
+        } elseif (strpos($search, ' 64GB')){
+            $newSearch = str_replace(' 64GB', '', $search);
+        } elseif (strpos($search, ' 128GB')){
+            $newSearch = str_replace(' 128GB', '', $search);
         } else {
             $newSearch = $search;
         }
@@ -511,17 +511,20 @@ function mpxScan($search, $id)
     $updated = 0;
     $filters = ['Tab ', 'Gear', 'iPad', 'iPod', 'AMD', 'Watch', 'iMac'];
     if(strpos($search, 'Galaxy')){
-        if (strpos($search, '16GB')){
-            $newSearch = str_replace('16GB', '', $search);
-        } elseif (strpos($search, '32GB')){
-            $newSearch = str_replace('32GB', '', $search);
-        } elseif (strpos($search, '64GB')){
-            $newSearch = str_replace('64GB', '', $search);
-        } elseif (strpos($search, '128GB')){
-            $newSearch = str_replace('128GB', '', $search);
+        if (strpos($search, ' 16GB')){
+            $newSearch = str_replace(' 16GB', '', $search);
+        } elseif (strpos($search, ' 32GB')){
+            $newSearch = str_replace(' 32GB', '', $search);
+        } elseif (strpos($search, ' 64GB')){
+            $newSearch = str_replace(' 64GB', '', $search);
+        } elseif (strpos($search, ' 128GB')){
+            $newSearch = str_replace(' 128GB', '', $search);
         } else {
             $newSearch = $search;
         }
+        // if (strpos($search, ' Plus')){
+        //     $newSearch = str_replace(' Plus', '', $newSearch);
+        // }
     } else {
         $newSearch = $search;
     }

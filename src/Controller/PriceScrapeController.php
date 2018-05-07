@@ -47,10 +47,10 @@ class PriceScrapeController extends Controller
         if ($session->get('name') == null) {
             $users = getUsers();
             $mail = $form['mail'];
-            $pass = hash('md5', $form['password']);
+            $pass = $form['password'];
             for ($i = 0; $i < count($users); $i++) {
                 if ($users[$i]['mail'] == $mail) {
-                    if ($users[$i]['password'] == $pass) {
+                    if (password_verify($form['password'], $users[$i]['password'])) {
                         $session->set('userID', $users[$i]['userID']);
                         $session->set('name', $users[$i]['firstName']);
                         $login = true;
@@ -124,7 +124,7 @@ class PriceScrapeController extends Controller
                 }
             }
             if (!$exists) {
-                $ins = "INSERT INTO `users`(`userID`,`firstName`,`lastName`,`mail`,`password`) VALUES (null, '" . $data['firstName'] . "', '" . $data['lastName'] . "', '" . $data['mail'] . "', '" . hash('md5', $data['password']) . "')";
+                $ins = "INSERT INTO `users`(`userID`,`firstName`,`lastName`,`mail`,`password`) VALUES (null, '" . $data['firstName'] . "', '" . $data['lastName'] . "', '" . $data['mail'] . "', '" . password_hash($data['password'], PASSWORD_BCRYPT) . "')";
                 $con->query($ins);
                 return $this->redirect('/login');
             } else {
