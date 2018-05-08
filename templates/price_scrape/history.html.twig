@@ -19,11 +19,13 @@ th {
                 <h1 class="display-3">No device selected</h1>
             </div>
             <div class="col-md-3 mb-4">
-                Device<br>
-                <select id="select" onchange="getChart(this);">
-                    <option value="0">Select a device</option>
+                <span style="font-size: 20px;">Device</span><br>
+                <select class="w-100 custom-select custom-select-lg" id="select" onchange="getChart(this);">
+                    <option value="101010">Select a device</option>
+                {% set i = 0 %}
                 {% for item in items %}
-                    <option value="{{ item.id }}">{{ item.device }}</option>
+                    <option value="{{ i }}">{{ item.device }}</option>
+                    {% set i = i + 1 %}
                 {% endfor %}
                 </select>
             </div>
@@ -47,7 +49,7 @@ th {
 function getChart(sel) {
     var id = document.getElementById('select').value;
     var dev = sel.options[sel.selectedIndex].innerHTML;
-    if(id == 0){
+    if(id == 101010){
         document.getElementById('chart').innerHTML = "No selected device";
         document.getElementById('chartTitle').innerHTML = "TITLE";
     } else {

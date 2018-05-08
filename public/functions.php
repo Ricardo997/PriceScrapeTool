@@ -58,10 +58,14 @@ function getUsers()
 function createLog()
 {
     require 'connection.php';
+    require 'Log.php';
+    require 'Device.php';
+
     $date = date("d-m-Y", time());
     $logName = 'log_' . $date . '.json'; 
-    $logText = '{"date": "' . date('d-m-Y', time()) . '", "data": { ';
-    $i = 0;
+    $data = [];
+    $log = new Log();
+    $log->setDate(date('d-m-Y', time()));
     $con = new PDO("mysql:host=localhost;dbname=scrapeprices", 'Ricardo', 'admin');
     $query = '  SELECT  `redeem`.`id` AS id,
                         `redeem`.`model` AS device,
@@ -85,13 +89,13 @@ function createLog()
                     LEFT JOIN `vodafone`
                             ON `vodafone`.`idVodafone` = `redeem`.`id`';
     $result = $con->query($query);
-    $numRows = $result->fetchColumn();
     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-        $logText .= '"' . $row['id'] . '": { "name" : "' . $row['device'] . '", "prices" : [ "' . $row['carphonePrice'] . '", "' . $row['magpiePrice'] . '", "' . $row['mazumaPrice'] . '", "' . $row['mpxPrice'] . '", "' . $row['recyclePrice'] . '", "' . $row['vodafonePrice'] . '"]}, ';
-        $i++;
+        $prices = [$row['carphonePrice'] , $row['magpiePrice'], $row['mazumaPrice'], $row['mpxPrice'], $row['recyclePrice'], $row['vodafonePrice']];
+        $dev = new Device($row['device'], $prices);
+        array_push($data, $dev);
     }
-    $logText = rtrim($logText, ", ");
-    $logText .= '}}';
+    $log->setData($data);
+    $logText = json_encode($log);
     $ref = fopen('logs/' . $logName, 'w+');
     fwrite($ref, $logText);
     fclose($ref);
@@ -105,15 +109,17 @@ function getLogs($id){
             $aux = file_get_contents('logs/' . $names[$i]);
             $arr = json_decode($aux);
             $date = $arr->date;
-            $carPrice = $arr->data->$id->prices[0];
-            $magPrice = $arr->data->$id->prices[1];
-            $mazPrice = $arr->data->$id->prices[2];
-            $mpxPrice = $arr->data->$id->prices[3];
-            $recPrice = $arr->data->$id->prices[4];
-            $vodPrice = $arr->data->$id->prices[5];
+            $data = $arr->data;
+            $carPrice = $data[$id]->prices[0];
+            $magPrice = $data[$id]->prices[1];
+            $mazPrice = $data[$id]->prices[2];
+            $mpxPrice = $data[$id]->prices[3];
+            $recPrice = $data[$id]->prices[4];
+            $vodPrice = $data[$id]->prices[5];
             $$date = [$date, $carPrice, $magPrice, $mazPrice, $mpxPrice, $recPrice, $vodPrice];
             $history[] = $$date;
         }
     }
     return $history;
 }
+?>
