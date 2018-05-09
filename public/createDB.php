@@ -1,6 +1,6 @@
 <?php
-require_once 'connection';
-$con = new mysqli($server, $user, $pass);
+require_once 'connection.php';
+$con = new PDO("mysql:host=" . $server, $user, $pass);
 $createDB = "CREATE DATABASE " . $db;
 $carphone = "CREATE TABLE `carphone` (
             `idCarphone` int(9) NOT NULL,
@@ -44,7 +44,7 @@ $vodafone = "CREATE TABLE `vodafone` (
     `vodafonePrice` float(5,2) DEFAULT NULL
   )";
 $con->query($createDB);
-$con->select_db($db);
+$con->query('use ' . $db);
 $con->query($carphone);
 $con->query($magpie);
 $con->query($mazuma);
@@ -52,6 +52,7 @@ $con->query($mpx);
 $con->query($rec);
 $con->query($redeem);
 $con->query($users);
+$con->query($vodafone);
 $alt = "ALTER TABLE `carphone` ADD KEY `idCarphone` (`idCarphone`)";
 $con->query($alt);
 $alt = "ALTER TABLE `magpie` ADD KEY `idMagpie` (`idMagpie`)";

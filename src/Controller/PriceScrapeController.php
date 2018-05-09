@@ -40,6 +40,14 @@ class PriceScrapeController extends Controller
      */
     public function index(Request $request)
     {
+        
+        require 'connection.php';
+        $ex = false;
+        $conect = new PDO("mysql:host=" . $server, $user, $pass);
+        $res = $conect->query("SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = " . $db);
+        if (!$res) {
+            require 'createDB.php';
+        }
         require 'functions.php';
         $session = $request->getSession();
         $form = $request->request->get('form');
@@ -114,7 +122,7 @@ class PriceScrapeController extends Controller
                 'error' => false,
             ));
         } else {
-            $con = new PDO("mysql:host=localhost;dbname=scrapeprices", 'Ricardo', 'admin');
+            $con = new PDO("mysql:host=" . $server . ";dbname=" . $db, $user, $pass);
             $users = getUsers();
             $exists = false;
             $data = $request->request->get('form');
