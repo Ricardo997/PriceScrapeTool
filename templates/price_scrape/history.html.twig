@@ -8,6 +8,31 @@ th {
     text-align: center;
     padding: 8px;
 }
+.tablink {
+    background-color: #555;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tablink:hover {
+    background-color: #777;
+}
+
+/* Set default styles for tab content */
+.tabcontent {
+    display: none;
+    padding: 50px;
+    text-align: center;
+}
+.tablink:focus{
+    outline: none;
+}
 </style>
 <div class="container-fluid">
     <div class="card mb-3">
@@ -31,9 +56,7 @@ th {
             </div>
             </div>
             <div class="row">
-            <div id="chart" class="col-xs-6 col-md-9">
-                Please select a device.
-            </div>
+                <div id="principal" class="col-xs-6 col-md-9"></div>
             </div>
         </div>
       </div>
@@ -50,18 +73,18 @@ function getChart(sel) {
     var id = document.getElementById('select').value;
     var dev = sel.options[sel.selectedIndex].innerHTML;
     if(id == 101010){
-        document.getElementById('chart').innerHTML = "No selected device";
-        document.getElementById('chartTitle').innerHTML = "TITLE";
+        document.getElementById('principal').innerHTML = "No selected device";
     } else {
         document.getElementById('chartTitle').innerHTML = '<h1 class="display-3">' + dev + '</h1>';
         var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function(){
                 if(this.readyState == 4 && this.status == 200){
-                    document.getElementById('chart').innerHTML = '<canvas id="canv" height="600" width="1200"></canvas>';
+                    document.getElementById('principal').innerHTML = '<button class="tablink w-50" onclick="openTab(\'Table\', this, \'orange\')" id="defaultOpen">Table</button><button class="tablink w-50" onclick="openTab(\'Chart\', this, \'orange\')">Chart</button><div id="Table" class="tabcontent mt-4"></div><div id="Chart" class="tabcontent mt-4"><canvas id="canv" height="480" width="1200"></div>';
                     window.sections = JSON.parse(this.responseText);
                     window.aux = sections;
-                    console.log(sections);
+                    drawTable();
                     drawChart();
+                    document.getElementById("defaultOpen").click();
                 }
             };
         xhttp.open("POST", "chart.php", true);
@@ -70,23 +93,27 @@ function getChart(sel) {
     }
     
 }
+function drawTable() {
+    var table = '<div class="table-responsive"><table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0"><thead><tr><th>DATE</th><th>Carphone Warehouse</th><th>MusicMagpie</th><th>Mazuma Mobile</th><th>Mobile Phone Xchange</th><th>EE</th><th>Vodafone</th></tr></thead><tbody>';
+    for (var i = 0; i < sections.length; i++) {
+        table += '<tr><td><strong>' + sections[i][6] + '</strong></td><td>&pound' +  sections[i][0] + '</td><td>&pound' +  sections[i][1] + '</td><td>&pound' +  sections[i][2] + '</td><td>&pound' +  sections[i][3] + '</td><td>&pound' +  sections[i][4] + '</td><td>&pound' +  sections[i][5] + '</td></tr>';
+    }
+    table += '</tbody></table></div>'
+    document.getElementById('Table').innerHTML = table;
+}
 function DrawTheChart(ChartData,ChartOptions,ChartId,ChartType){
 eval('var myLine = new Chart(document.getElementById("canv").getContext("2d"),{type:"'+ChartType+'",data:ChartData,options:ChartOptions});document.getElementById(ChartId).getContext("2d").stroke();')
 }
-
 function drawChart() {
     var labelArr = [];
     for (var i = 0; i < sections.length; i++) {
         labelArr.push(sections[i][6]);
     }
-    console.log(labelArr);
     var dataArr = [];
     for (var i = 0; i < sections.length; i++) {
         aux[i].pop();
         dataArr.push(aux[i]);
     }
-    console.log(dataArr);
-    
     var datasetsArr = [];
     for (var i = 0; i < dataArr[0].length; i++) {
         datasetsArr[i] = [];
@@ -96,7 +123,6 @@ function drawChart() {
                 datasetsArr[i].push(dataArr[j][i]);
         }
     }
-    console.log(datasetsArr);
         var data = {
         labels : labelArr,
         datasets : [
@@ -173,24 +199,6 @@ function drawChart() {
                 
                 boxWidth:10,
                 usePointStyle:true,
-
-                {# generateLabels: function(chart){
-                    return  chart.data.datasets.map( function( dataset, i ){
-                        return{
-                            text:dateset.labels,
-                            lineCap:dataset.borderCapStyle,
-                            lineDash:[],
-                            lineDashOffset: 1,
-                            lineJoin:dataset.borderJoinStyle,
-                            pointStyle:'circle',
-                            fillStyle:dataset.borderColor,
-                            strokeStyle:dataset.borderColor,
-                            lineWidth:dataset.pointBorderWidth,
-                            lineDash:dataset.borderDash,
-                        }
-                    })
-                }, #}
-
             },
         },
         elements: {
@@ -211,6 +219,19 @@ function drawChart() {
         },
     };
     DrawTheChart(data, options, "canv", "line");
+}
+function openTab(tabName,elmnt,color) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].style.backgroundColor = "";
+    }
+    document.getElementById(tabName).style.display = "block";
+    elmnt.style.backgroundColor = color;
 }
 </script>
 {% endblock %}
