@@ -20,12 +20,9 @@ foreach($his as $index => $data) {
 }
 for($i = 0; $i < count($dates); $i++) {
     if(!isset($secion[$dates[$i]])) {
-        $section[$dates[$i]] = [$car[$i], $mag[$i], $maz[$i], $mpx[$i], $rec[$i], $vod[$i]];
+        $section[$i] = [$car[$i], $mag[$i], $maz[$i], $mpx[$i], $rec[$i], $vod[$i], $dates[$i]];
     }
 }
-echo '<div class="table-responsive"><table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0"><thead><tr><th>DATE</th><th>Carphone Warehouse</th><th>MusicMagpie</th><th>Mazuma Mobile</th><th>Mobile Phone Xchange</th><th>EE</th><th>Vodafone</th></tr></thead><tbody>';
-foreach($section as $time => $val) {
-    echo '<tr><td><strong>' . $time . '</strong></td><td>&pound;' . $val[0] . '</td><td>&pound;' . $val[1] . '</td><td>&pound;' . $val[2] . '</td><td>&pound;' . $val[3] . '</td><td>&pound;' . $val[4] . '</td><td>&pound;' . $val[5] . '</td></tr>';
-}
-echo '</tbody></table></div>';
+// 
+echo json_encode($section);
 ?>

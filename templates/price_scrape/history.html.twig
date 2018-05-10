@@ -57,14 +57,160 @@ function getChart(sel) {
         var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function(){
                 if(this.readyState == 4 && this.status == 200){
-                    document.getElementById('chart').innerHTML = this.responseText;
+                    document.getElementById('chart').innerHTML = '<canvas id="canv" height="600" width="1200"></canvas>';
+                    window.sections = JSON.parse(this.responseText);
+                    window.aux = sections;
+                    console.log(sections);
+                    drawChart();
                 }
             };
-            xhttp.open("POST", "chart.php", true);
-            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhttp.send("idDevice=" + id);
+        xhttp.open("POST", "chart.php", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("idDevice=" + id);
     }
+    
+}
+function DrawTheChart(ChartData,ChartOptions,ChartId,ChartType){
+eval('var myLine = new Chart(document.getElementById("canv").getContext("2d"),{type:"'+ChartType+'",data:ChartData,options:ChartOptions});document.getElementById(ChartId).getContext("2d").stroke();')
+}
+
+function drawChart() {
+    var labelArr = [];
+    for (var i = 0; i < sections.length; i++) {
+        labelArr.push(sections[i][6]);
+    }
+    console.log(labelArr);
+    var dataArr = [];
+    for (var i = 0; i < sections.length; i++) {
+        aux[i].pop();
+        dataArr.push(aux[i]);
+    }
+    console.log(dataArr);
+    
+    var datasetsArr = [];
+    for (var i = 0; i < dataArr[0].length; i++) {
+        datasetsArr[i] = [];
+    }
+    for (var i = 0; i < datasetsArr.length; i++) {
+        for (var j = 0; j < sections.length; j++){
+                datasetsArr[i].push(dataArr[j][i]);
+        }
+    }
+    console.log(datasetsArr);
+        var data = {
+        labels : labelArr,
+        datasets : [
+            {
+                borderColor : "rgb(10, 38, 84,1)",
+                pointBackgroundColor:"rgb(10, 38, 84,1)",
+		        pointBorderColor : "rgb(10, 38, 84,1)",
+                data : datasetsArr[0],
+                label : "Carphone Warehouse"
+            },
+            {
+                borderColor : "rgb(59, 202, 249)",
+                pointBackgroundColor:"rgb(59, 202, 249)",
+		        pointBorderColor : "rgb(59, 202, 249)",
+                data : datasetsArr[1],
+                label : "Music Magpie"
+            },
+            {
+                borderColor : "rgb(126, 76, 147)",
+                pointBackgroundColor:"rgb(126, 76, 147)",
+		        pointBorderColor : "rgb(126, 76, 147)",
+                data : datasetsArr[2],
+                label : "Mazuma Mobile"
+            },
+            {
+                borderColor : "rgb(170, 170, 170)",
+                pointBackgroundColor:"rgb(170, 170, 170)",
+		        pointBorderColor : "rgb(170, 170, 170)",
+                data : datasetsArr[3],
+                label : "Mobile Phone Xchange"
+            },
+            {
+                borderColor : "rgb(3, 173, 136)",
+                pointBackgroundColor:"rgb(3, 173, 136)",
+		        pointBorderColor : "rgb(3, 173, 136)",
+                data : datasetsArr[4],
+                label : "EE"
+            },
+            {
+                borderColor : "rgb(230, 50, 50)",
+                pointBackgroundColor:"rgb(230, 50, 50)",
+		        pointBorderColor : "rgb(230, 50, 50)",
+                data : datasetsArr[5],
+                label : "Vodafone"
+            },
+        ]
+    }
+    var options= {
+        responsive:false,
+            layout:{padding: 12},
+            scales: {
+            xAxes:[{
+        gridLines:{borderDash:[],},
+        }],
+
+            yAxes:[{
+                gridLines:{borderDash:[],},
+                scaleLabel:{
+                	display:true,
+                	labelString:'Pounds',
+                	fontColor:'#666666',
+                	fontSize:16,
+                },
+
+            }],
+        },plugins:{
+        datalabels:{display:true,
+            font:{
+                style:' bold',},},
+        },
+        legend:{
+            position:'bottom',
+            labels:{
+                
+                boxWidth:10,
+                usePointStyle:true,
+
+                {# generateLabels: function(chart){
+                    return  chart.data.datasets.map( function( dataset, i ){
+                        return{
+                            text:dateset.labels,
+                            lineCap:dataset.borderCapStyle,
+                            lineDash:[],
+                            lineDashOffset: 1,
+                            lineJoin:dataset.borderJoinStyle,
+                            pointStyle:'circle',
+                            fillStyle:dataset.borderColor,
+                            strokeStyle:dataset.borderColor,
+                            lineWidth:dataset.pointBorderWidth,
+                            lineDash:dataset.borderDash,
+                        }
+                    })
+                }, #}
+
+            },
+        },
+        elements: {
+            arc: {
+        },
+            point: {radius:5,pointStyle:'rect',borderWidth:0,},
+            line: {tension:0.28,fill:false,
+        },
+            rectangle: {
+        },
+        },
+        tooltips:{
+            xPadding:2,
+        },
+        hover:{
+            mode:'nearest',
+            animationDuration:400,
+        },
+    };
+    DrawTheChart(data, options, "canv", "line");
 }
 </script>
-
 {% endblock %}

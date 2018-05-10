@@ -43,11 +43,11 @@ class PriceScrapeController extends Controller
         
         require 'connection.php';
         $ex = false;
-        $conect = new PDO("mysql:host=" . $server, $user, $pass);
-        $res = $conect->query("SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = " . $db);
-        if (!$res) {
-            require 'createDB.php';
-        }
+        // $conect = new PDO("mysql:host=" . $server, $user, $pass);
+        // $res = $conect->query("SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = " . $db);
+        // if (!$res) {
+        //     require 'createDB.php';
+        // }
         require 'functions.php';
         $session = $request->getSession();
         $form = $request->request->get('form');
