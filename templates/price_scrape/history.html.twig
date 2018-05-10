@@ -79,7 +79,7 @@ function getChart(sel) {
         var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function(){
                 if(this.readyState == 4 && this.status == 200){
-                    document.getElementById('principal').innerHTML = '<button class="tablink w-50" onclick="openTab(\'Table\', this, \'orange\')" id="defaultOpen">Table</button><button class="tablink w-50" onclick="openTab(\'Chart\', this, \'orange\')">Chart</button><div id="Table" class="tabcontent mt-4"></div><div id="Chart" class="tabcontent mt-4"><canvas id="canv" height="480" width="1200"></div>';
+                    document.getElementById('principal').innerHTML = '<button class="tablink w-50" onclick="openTab(\'Table\', this, \'orange\')" id="defaultOpen">Table</button><button class="tablink w-50" onclick="openTab(\'Chart\', this, \'orange\')">Chart</button><div id="Table" class="tabcontent mt-4" style="max-height: 480px;"></div><div id="Chart" class="tabcontent mt-4"><canvas id="canv" height="480" width="1200"></div>';
                     window.sections = JSON.parse(this.responseText);
                     window.aux = sections;
                     drawTable();
