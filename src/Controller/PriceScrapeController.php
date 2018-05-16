@@ -122,6 +122,7 @@ class PriceScrapeController extends Controller
                 'error' => false,
             ));
         } else {
+            require 'connection.php';
             $con = new PDO("mysql:host=" . $server . ";dbname=" . $db, $user, $pass);
             $users = getUsers();
             $exists = false;
